@@ -1,0 +1,12 @@
+﻿  打印信息.c
+d:\burning\study\github\training-program-002-print_file_info\打印文件信息\打印文件信息\打印信息.c(100): warning C4477: “fprintf”: 格式字符串“%10d”需要类型“int”的参数，但可变参数 3 拥有了类型“__time64_t”
+  d:\burning\study\github\training-program-002-print_file_info\打印文件信息\打印文件信息\打印信息.c(100): note: 请考虑在格式字符串中使用“%lld”
+  d:\burning\study\github\training-program-002-print_file_info\打印文件信息\打印文件信息\打印信息.c(100): note: 请考虑在格式字符串中使用“%I64d”
+d:\burning\study\github\training-program-002-print_file_info\打印文件信息\打印文件信息\打印信息.c(100): warning C4477: “fprintf”: 格式字符串“%10d”需要类型“int”的参数，但可变参数 4 拥有了类型“__time64_t”
+  d:\burning\study\github\training-program-002-print_file_info\打印文件信息\打印文件信息\打印信息.c(100): note: 请考虑在格式字符串中使用“%lld”
+  d:\burning\study\github\training-program-002-print_file_info\打印文件信息\打印文件信息\打印信息.c(100): note: 请考虑在格式字符串中使用“%I64d”
+d:\burning\study\github\training-program-002-print_file_info\打印文件信息\打印文件信息\打印信息.c(100): warning C4477: “fprintf”: 格式字符串“%10d”需要类型“int”的参数，但可变参数 5 拥有了类型“__time64_t”
+  d:\burning\study\github\training-program-002-print_file_info\打印文件信息\打印文件信息\打印信息.c(100): note: 请考虑在格式字符串中使用“%lld”
+  d:\burning\study\github\training-program-002-print_file_info\打印文件信息\打印文件信息\打印信息.c(100): note: 请考虑在格式字符串中使用“%I64d”
+  打印文件信息.vcxproj -> D:\Burning\Study\Github\Training-program-002-print_file_info\打印文件信息\Debug\打印文件信息.exe
+  打印文件信息.vcxproj -> D:\Burning\Study\Github\Training-program-002-print_file_info\打印文件信息\Debug\打印文件信息.pdb (Partial PDB)
