@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <io.h>
+#include <time.h>
 
 struct _finddata_t;
 
@@ -86,6 +87,7 @@ void Output_info(void)
 	struct _finddata_t fileinfo;							//文件存储信息结构体 
 	long fHandle;											//保存文件句柄 
 	int i = 0;												//文件数记录器		
+	time_t Time_create, Time_write, Time_access;			//时间格式
 
 	if ((fHandle = _findfirst(file_add, &fileinfo)) == -1L)
 	{
@@ -94,10 +96,20 @@ void Output_info(void)
 	}
 	else 
 	{
+		Time_create = time(&fileinfo.time_create);
+		Time_write = time(&fileinfo.time_write);
+		Time_access = time(&fileinfo.time_access);
+
+		fprintf(fp, "找到文件:%-s\r\r\n 文件大小：%-6d KB, 创建日期：%s, 修改日期：%s, 访问日期：%s.\r\r\n", fileinfo.name, (fileinfo.size)/1000, ctime(&fileinfo.time_create), ctime(&fileinfo.time_write), ctime(&fileinfo.time_access));
+		
 		while (_findnext(fHandle, &fileinfo) == 0)
 		{
+			Time_create = time(&fileinfo.time_create);
+			Time_write = time(&fileinfo.time_write);
+			Time_access = time(&fileinfo.time_access);
+
 			i++;
-			fprintf(fp, "找到文件:%30s, 文件大小：%10d, 创建日期：%10d, 修改日期：%10d, 访问日期：%10d.\r\r\n", fileinfo.name, fileinfo.size, fileinfo.time_create, fileinfo.time_write, fileinfo.time_access);
+			fprintf(fp, "\r\r\n找到文件:%-s\r\r\n 文件大小：%-6d KB, 创建日期：%s, 修改日期：%s, 访问日期：%s.\r\r\n", fileinfo.name, (fileinfo.size)/1000, ctime(&fileinfo.time_create), ctime(&fileinfo.time_write), ctime(&fileinfo.time_access));
 			
 			//printf("找到文件:%30s,文件大小：%10d,创建日期：%10d,修改日期：%10d,访问日期：%10d\n", fileinfo.name, fileinfo.size,fileinfo.time_create,fileinfo.time_write,fileinfo.time_access);
 		}
