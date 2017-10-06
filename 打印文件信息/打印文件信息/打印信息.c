@@ -124,11 +124,104 @@ void Output_info(void)
 	fclose(fp);
 }
 
-int main(void)
+char* get_address(void)
 {
+	char * file_loc;
+	printf("##### 输入文件夹地址(./****/) #####\n");								//文件地址
+	file_loc = get_name();
+	return file_loc;
+}
+
+void file_search(char*file_loc, int layer, char* file_type)				//file_search
+{
+	/*################### 将文件夹内文件信息输出 ###################*/
+	struct _finddata_t fileinfo;							//文件存储信息结构体 
+	long fHandle;											//保存文件句柄 
+	int i = 0;												//文件数记录器		
+	time_t Time_create, Time_write, Time_access;			//时间格式
+
+	int Layer;												//子文件夹层
+	char *curr;
+	int loc_len, type_len;
+
+	loc_len = strlen(file_loc);
+	type_len = strlen(file_type);
+
+	curr = (char*)malloc(loc_len + type_len+1);
+	if (NULL == curr)
+	{
+		exit(1);
+	}
+
+	strcpy(curr, file_loc);
+	strcat(curr, file_type);
+	//printf("file_add test output: %s\n", curr);
+
+	if ((fHandle = _findfirst(curr , &fileinfo)) != -1L)
+	{
+		do
+		{
+			if (strcmp(fileinfo.name, "..") == 0)
+				continue;
+			if (strcmp(fileinfo.name, ".") == 0)
+				continue;
+			for (Layer = 0; Layer < layer; Layer++)
+				printf("\t");
+
+			if ((_A_SUBDIR == fileinfo.attrib))               // 是目录  
+			{
+				printf("[Dir]:\t%s\n", fileinfo.name);
+				char* curr_n;
+				curr_n = (char*)malloc(loc_len + 1 + strlen(fileinfo.name));
+				if (NULL == curr_n)
+				{
+					exit(1);
+				}
+
+				strcpy(curr_n, file_loc);
+				strcat(curr_n, fileinfo.name);
+				strcat(curr_n, "/");
+				file_search(curr_n, layer + 1, file_type);                  // 递归遍历子目录  
+			}
+			else
+			{
+				Time_create = time(&fileinfo.time_create);
+				Time_write = time(&fileinfo.time_write);
+				Time_access = time(&fileinfo.time_access);
+
+				//i++;
+				printf("[File]:\t找到文件:%-s\t文件大小：%-d KB\n", fileinfo.name, (fileinfo.size) / 1000);
+				for (Layer = 0; Layer < (layer + 1); Layer++)
+					printf("\t");
+				printf("创建日期：%-s\n", ctime(&fileinfo.time_create));
+				for (Layer = 0; Layer < (layer + 1); Layer++)
+					printf("\t");
+				printf("修改日期：%-s\n", ctime(&fileinfo.time_write));
+				for (Layer = 0; Layer < (layer + 1); Layer++)
+					printf("\t");
+				printf("访问日期：%-s\n", ctime(&fileinfo.time_access));
+				//printf("[File]:\t%s\n",fileinfo.name);
+			}
+
+		} while (_findnext(fHandle, &fileinfo) == 0);
+	}
+
+	_findclose(fHandle);									//关闭文件 
+
+	//printf("文件数量：%d\n", i);
+}
+
+int main(void)
+{	
 	printf("##### Program initiating #####\n");
 
-	Output_info();
+	char* filetype,*fileloc;
+	printf("##### 输入要查找的文件类型(*.xxxx) #####\n");							//文件类型
+	filetype = get_name();
+
+	fileloc = get_address();
+
+	file_search(fileloc,0,filetype);
 
 	system("pause");
 }
